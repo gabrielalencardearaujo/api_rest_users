@@ -92,7 +92,7 @@ class UserController {
       return;
     }
 
-    if(role && !isNaN(role)) editUser.role = Number(role)
+    if(role && !Number.isNaN(role)) editUser.role = Number(role)
     else {
       res.status(401);
       res.json({ info: 'Invalid Role' })
@@ -107,6 +107,26 @@ class UserController {
     } else {
       res.status(500);
       res.json({info: 'Server with problems'});  
+    }
+  }
+
+  async delete(req: Request, res: Response) {
+    const { id } = req.params;
+
+    if(id && !Number.isNaN(id)) {
+      const findUser = await User.findById(id);
+
+      if(findUser) {
+        await User.deleteUserById(+id);
+        res.status(200)
+        res.json({info: 'User delete with success!'})
+      } else {
+        res.status(404);
+        res.json({info: 'User not found!'})
+      }
+    } else {
+      res.status(400);
+      res.json({info: 'Invalid id!'})
     }
   }
 }

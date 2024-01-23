@@ -80,6 +80,16 @@ class User implements UserProtocol {
       return false;
     }
   }
+
+  async deleteUserById(id: number) {
+    try {
+      await knex.delete().where({id}).table('users');
+      return true;
+    }catch(err) {
+      console.error('Error:', err);
+      return false;
+    }
+  }
 }
 
 export default new User;
