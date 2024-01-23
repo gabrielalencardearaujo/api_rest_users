@@ -56,17 +56,27 @@ class User implements UserProtocol {
     }
   }
 
-  async findEmailDatabase(email: string) {
+  async findEmailDatabase(email: string, pass?: boolean) {
     try {
-      const result = await knex.select()
-        .table('users')
-        .where({ email });
+      let result;
+      if(pass) {
+        result = await knex
+          .select()
+          .table('users')
+          .where({ email });
+      } else {
+        result = await knex
+          .select(['id', 'name', 'email', 'role'])
+          .table('users')
+          .where({ email });
+      }
 
-      if (result.length > 0) return true
-      else return false;
+      if (result.length > 0) return result
+      else return [];
 
     } catch (err) {
       console.error('Error: ', err);
+      return [];
     }
   }
 
