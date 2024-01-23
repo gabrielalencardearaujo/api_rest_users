@@ -1,6 +1,13 @@
 import knex from '../database/connection';
 import bcrypt from 'bcrypt';
 
+type BodyUserProtocol = {
+  id: number,
+  name: string,
+  email: string,
+  role: number,
+}
+
 interface UserProtocol {
   new: (name: string, email: string, password: string) => void;
 }
@@ -49,7 +56,7 @@ class User implements UserProtocol {
     }
   }
 
-  async findEmailDatabase(email?: string) {
+  async findEmailDatabase(email: string) {
     try {
       const result = await knex.select()
         .table('users')
@@ -60,6 +67,17 @@ class User implements UserProtocol {
 
     } catch (err) {
       console.error('Error: ', err);
+    }
+  }
+
+  async updateUser(body: BodyUserProtocol) {
+    try {
+      const result = await knex.update(body).where({id: body.id}).table('users');
+      console.log(result);
+      return true;
+    } catch(err) {
+      console.error('Error:', err)
+      return false;
     }
   }
 }

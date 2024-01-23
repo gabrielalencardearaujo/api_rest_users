@@ -7,8 +7,9 @@ const router = express.Router();
 router.get('/', HomeController.home);
 
 // Routers Users:
-router.post('/user', UserController.create);
 router.get('/user', UserController.index);
+router.post('/user', UserController.create);
 router.get('/user/:id', UserController.findUser);
+router.put('/user/:id', UserController.update);
 
 export default router;

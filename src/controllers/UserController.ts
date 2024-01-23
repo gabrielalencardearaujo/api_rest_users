@@ -24,7 +24,7 @@ class UserController {
       res.json(result)
     } else {
       res.status(404);
-      res.json({ error: 'Usuário não encontrado!' })
+      res.json({ info: 'User not found!' })
     }
   }
 
@@ -33,13 +33,13 @@ class UserController {
 
     if (email === undefined || name === undefined || password === undefined) {
       res.status(400);
-      res.json({ error: 'Informações Inválidas!' });
+      res.json({ info: 'Invalid fields' });
       return;
     }
 
     if (!validator.isEmail(email)) {
       res.status(400);
-      res.json({ erro: 'Email inválido!' });
+      res.json({ erro: 'Invalid email!' });
       return;
     }
 
@@ -47,7 +47,7 @@ class UserController {
 
     if (checkEmail) {
       res.status(401);
-      res.json({ error: 'Email já cadastrado!' })
+      res.json({ info: 'Email exists' })
       return;
     }
 
@@ -55,6 +55,59 @@ class UserController {
 
     console.log(req.body);
     res.json('Tudo OK!');
+  }
+
+  async update(req: Request, res: Response) {
+    const { id } = req.params;
+    const { name, email, role } = req.body;
+
+    const user = await User.findById(id);
+    
+    if(!user) return undefined;
+    
+    const editUser = {
+      id: Number(id),
+      email: '',
+      name: '',
+      role: 0
+    };
+    
+    if(validator.isEmail(email)) {
+      if(email !== user.email) {
+        const checkEmail = await User.findEmailDatabase(email);
+        if(checkEmail) {
+          res.status(401)
+          res.json({ info: 'Email exists!' })
+          return;
+        } 
+      } 
+
+      editUser.email = email;
+    }
+
+    if(name) editUser.name = name
+    else {
+      res.status(401);
+      res.json({ info: 'Insert a name!' })
+      return;
+    }
+
+    if(role && !isNaN(role)) editUser.role = Number(role)
+    else {
+      res.status(401);
+      res.json({ info: 'Invalid Role' })
+      return;
+    }
+
+    const realeseUpdate = await User.updateUser(editUser)
+
+    if(realeseUpdate) {
+      res.status(200);
+      res.json({info: 'Update user with success'});  
+    } else {
+      res.status(500);
+      res.json({info: 'Server with problems'});  
+    }
   }
 }
 
