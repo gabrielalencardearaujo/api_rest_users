@@ -6,6 +6,32 @@ interface UserProtocol {
 }
 
 class User implements UserProtocol {
+
+  async findAllUsers() {
+    try {
+      return await knex.select(["id", "email", "name", "role"]).table('users');
+    } catch (err) {
+      console.error('Error ao pesquisar todos os usuario:', err)
+      return undefined;
+    }
+  }
+
+  async findById(id: number | string) {
+    try {
+      const user = await knex
+        .select(["id", "email", "name", "role"])
+        .where({ id })
+        .table('users');
+
+        if(user.length > 0) return user[0];
+        else return undefined;
+        
+    } catch (err) {
+      console.error('Error ao pesquisar todos os usuario:', err)
+      return undefined;
+    }
+  }
+
   async new(name: string, email: string, password: string) {
     try {
 

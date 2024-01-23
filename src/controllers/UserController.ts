@@ -9,8 +9,23 @@ type ResquestProtocol = {
 }
 
 class UserController {
-  async index() {
-    // Index controller
+
+  async index(req: Request, res: Response) {
+    const listUsers = await User.findAllUsers();
+    res.json(listUsers);
+  }
+
+  async findUser(req: Request, res: Response) {
+    const { id } = req.params;
+    const result = await User.findById(id);
+
+    if (result) {
+      res.status(200);
+      res.json(result)
+    } else {
+      res.status(404);
+      res.json({ error: 'Usuário não encontrado!' })
+    }
   }
 
   async create(req: Request, res: Response) {
