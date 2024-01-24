@@ -261,3 +261,46 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
     }
   ```
 
+##### StatusCode: 400;
+  Nome ou senha ou email não informados. Retorno:
+  ```
+    { 
+      info: 'Insert a name or password or email or role correctly.' 
+    }
+  ```
+
+##### StatusCode: 500;
+
+  Problemas com servidor, tente mais tarde. Retorno:
+  ```
+    { 
+      info: 'Server with problems.' 
+    }
+  ```
+
+##### StatusCode: 403;
+
+  Usuário não autorizado. Retorna um json:
+  ```
+    {
+      info: 'User not Authorized'
+    }
+  ```
+
+##### StatusCode: 400;
+
+  Ocorre quando não é enviado um token de autorização. Retorna um json:
+  ```
+    {
+      info: 'Send the token for authorization'
+    }
+  ```
+
+##### StatusCode: 401;
+
+  Token inválido, não aceito. Retorna um json:
+  ```
+  {
+    info: 'Invalid Token!'
+  }
+  ```

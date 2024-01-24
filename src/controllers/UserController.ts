@@ -105,6 +105,11 @@ class UserController {
       }
 
       editUser.email = email;
+    } else {
+      res.status(400);
+      res.json({ 
+        info: 'Insert a name or password or email correctly.' 
+      })
     }
 
     if (name && password) {
@@ -119,7 +124,7 @@ class UserController {
 
     if (role && !Number.isNaN(role)) editUser.role = Number(role)
     else {
-      res.status(401);
+      res.status(400);
       res.json({ info: 'Invalid Role' })
       return;
     }
