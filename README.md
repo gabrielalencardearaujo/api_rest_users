@@ -209,4 +209,55 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
 
 ### PUT /user/:id
 
-  Atualização de dados do usuário:
+  Atualização de dados do usuário, requer autorização de admin. 
+
+#### Parâmetros
+
+  Um json com os dados do usuários, alterados ou não.
+  ```
+    {
+      name: string;
+      email: string;
+      password: string;
+      role: number;
+    }
+  ```
+
+#### Respostas
+
+##### StatusCode: 200;
+
+  Atualização realizada com sucesso. Retorna um json:
+  ```
+    { 
+      info: 'Update user with success' 
+    }
+  ```
+
+##### StatusCode: 404;
+
+  Usuário não encontrado. Retorno:
+  ```
+    {
+      info: 'User not found.'
+    }
+  ```
+
+##### StatusCode: 404;
+
+  Usuário não encontrado. Retorno:
+  ```
+    {
+      info: 'User not found.'
+    }
+  ```
+
+##### StatusCode: 401;  
+
+  Email informado já existe. Retorno:
+  ```
+    { 
+      info: 'Email exists!' 
+    }
+  ```
+

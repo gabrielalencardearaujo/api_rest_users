@@ -79,7 +79,12 @@ class UserController {
 
     const user = await User.findById(id);
 
-    if (!user) return undefined;
+    if (!user) {
+      res.status(404);
+      res.json({
+        info: 'User not found.'
+      })
+    }
 
     const editUser = {
       id: Number(id),
@@ -102,19 +107,13 @@ class UserController {
       editUser.email = email;
     }
 
-    if (name) editUser.name = name
-    else {
-      res.status(401);
-      res.json({ info: 'Insert a name!' })
-      return;
-    }
-
-    if (password) {
-      editUser.password = await bcrypt.hash(password, 10)
+    if (name && password) {
+      editUser.name = name;
+      editUser.password = await bcrypt.hash(password, 10);
     }
     else {
-      res.status(401);
-      res.json({ info: 'Insert a password!' })
+      res.status(400);
+      res.json({ info: 'Insert a name and password' })
       return;
     }
 
