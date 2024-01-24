@@ -8,6 +8,13 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
 
   Todo usuário é salvo no banco de dados com as informações: __name__, __email__, __password__, __role__, __id__.
 
+### Campus Role:
+  Pode conter 2 valores:
+    - 0: Usuário comum, não tem acesso as a put, delete e listagem de usuários.
+    - 1: Admin, tem acesso a todas as rotas.
+
+
+
 ### POST /login
 
   Usada para realizar login na API e ter acesso a rotas com autenticação.
@@ -16,7 +23,7 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
 
   Nenhum
 
-#### Respsotas
+#### Respostas
 
 ##### StatusCode: 200
   Login realizado com sucesso, retorna um json com o token de autenticação, esse token não tem tempo para expirar:
@@ -46,5 +53,125 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
   ```
 
 ### GET /user 
-  Listagem de todos os usuários. Requer autenticação de admin.
-  
+  Listagem de todos os usuários. Requer autenticação de admin (role: 1);
+
+#### Parâmetros
+
+  Nenhum
+
+#### Respostas
+
+##### StatusCode: 200;
+  Autenticado e retorna um json com a lista de todos os usuários.
+  ```
+  {
+    "info": "Access authorized",
+    "listUsers": [
+      {
+        "id": 1,
+        "email": "gabriel@gmail.com",
+        "name": "Galencar",
+        "role": 0
+      },
+      {
+        "id": 2,
+        "email": "alencar@gmail.com",
+        "name": "Alencar Gabriel",
+        "role": 0
+      },
+      {
+        "id": 4,
+        "email": "antonio@hotmail.com",
+        "name": "Antonio Machado",
+        "role": 0
+      },
+      {
+        "id": 12,
+        "email": "victor.lima@hotmail.com",
+        "name": "Victor Lima",
+        "role": 0
+      },
+      {
+        "id": 13,
+        "email": "fulano.silva@gmail.com",
+        "name": "Fulano da Silva",
+        "role": 0
+      },
+      {
+        "id": 14,
+        "email": "cricrano.souza@gmail.com",
+        "name": "Cicrano Souza",
+        "role": 1
+      },
+      ... 333 more
+    ]
+  }
+```
+##### StatusCode: 403;
+
+  Usuário não autorizado. Retornas um json:
+  ```
+    {
+      info: 'User not Authorized'
+    }
+  ```
+
+##### StatusCode: 400;
+
+  Ocorre quando não é enviado um token de autorização. Retorna um json:
+  ```
+    {
+      info: 'Send the token for authorization'
+    }
+  ```
+
+##### StatusCode: 401;
+
+  Token inválido, não aceito. Retorna um json:
+  ```
+  {
+    info: 'Invalid Token!'
+  }
+  ```
+
+
+### POST /user 
+  Criação de usuários. Exige envio de um corpo com as informações do usuário, qualquer usuário tem acesso.
+
+#### Parâmetros
+
+  Um json com as informações do usuário, seguindo o modelo:
+  ```
+    {
+      name: string;
+      email: string;
+      password: string;
+      role: number;
+    }
+  ```
+#### Respostas
+
+##### StatusCode: 200;
+
+  Retorna um json informando que usuário foi criado.
+  ```
+    {
+      info: 'All Right! User created.'
+    }
+  ```
+
+##### StatusCode: 400;
+  Algum dos campos não foi preenchido ou o email não é um email válido. Retorna um json
+  ```
+    { 
+      info: 'Fields can't be empty or email invalid.' 
+    }
+  ```
+
+##### StatusCode: 401;
+  Email já existe. Esta API não permite cadastro de dois emails iguais. Retorna um json:
+  ```
+    { 
+      info: 'Email exists' 
+    }
+  ```

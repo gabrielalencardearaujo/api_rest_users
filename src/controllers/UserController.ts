@@ -20,7 +20,10 @@ class UserController {
 
   async index(req: Request, res: Response) {
     const listUsers = await User.findAllUsers();
-    res.json(listUsers);
+    res.json({
+      info: 'Access authorized',
+      listUsers: listUsers
+    });
   }
 
   async findUser(req: Request, res: Response) {
@@ -29,7 +32,10 @@ class UserController {
 
     if (result) {
       res.status(200);
-      res.json(result)
+      res.json({
+        info: 'User found',
+        user: result
+      })
     } else {
       res.status(404);
       res.json({ info: 'User not found!' })
@@ -60,8 +66,11 @@ class UserController {
     }
 
     User.new(name, email, password, role);
-
-    res.json('Tudo OK!');
+    
+    res.status(200);
+    res.json({
+      info: 'All Right! User created.'
+    });
   }
 
   async update(req: Request, res: Response) {

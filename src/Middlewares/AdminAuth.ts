@@ -23,12 +23,12 @@ class MiddlewareLogin {
         }
 
       } else {
-        res.status(403);
+        res.status(400);
         res.json({info: 'Send the token for authorization'});
         return;
       }
     } catch (error) {
-      res.status(500)
+      res.status(401)
       res.json({info: 'Invalid Token!'})
       return;
     }
