@@ -149,7 +149,7 @@ class UserController {
       if (findUser) {
         await User.deleteUserById(+id);
         res.status(200)
-        res.json({ info: 'User delete with success!' })
+        res.json({ info: 'User deleted with success!' })
       } else {
         res.status(404);
         res.json({ info: 'User not found!' })

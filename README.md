@@ -164,7 +164,6 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
   ```
 
 
-
 ### POST /user 
 
   Criação de usuários. Exige envio de um corpo com as informações do usuário, qualquer usuário tem acesso.
@@ -262,6 +261,7 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
   ```
 
 ##### StatusCode: 400;
+
   Nome ou senha ou email não informados. Retorno:
   ```
     { 
@@ -278,6 +278,68 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
     }
   ```
 
+##### StatusCode: 403;
+
+  Usuário não autorizado. Retorna um json:
+  ```
+    {
+      info: 'User not Authorized'
+    }
+  ```
+
+##### StatusCode: 400;
+
+  Ocorre quando não é enviado um token de autorização. Retorna um json:
+  ```
+    {
+      info: 'Send the token for authorization'
+    }
+  ```
+
+##### StatusCode: 401;
+
+  Token inválido, não aceito. Retorna um json:
+  ```
+  {
+    info: 'Invalid Token!'
+  }
+  ```
+
+
+### DELETE /user/:id
+
+  Atualização de dados do usuário, requer autorização de admin. 
+
+#### Parâmetros
+
+  Deve informar o id do usuário nos parâmetros da url.
+
+#### Respostas
+
+##### StatusCode: 200;
+
+  Usuário excluido com sucesso. Retorna um json:
+  ```
+    { 
+      info: 'User deleted with success!' 
+    }
+  ```
+
+##### StatusCode: 404;
+  Usuário não encontrado. Retorno:
+  ```
+    { 
+      info: 'User not found!' 
+    }
+  ```
+##### StatusCode: 400;
+
+  Id informado é inválido. Retorno:
+  ``` 
+    { 
+      info: 'Invalid id!' 
+    }
+  ```
 ##### StatusCode: 403;
 
   Usuário não autorizado. Retorna um json:
