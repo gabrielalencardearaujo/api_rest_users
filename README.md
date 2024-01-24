@@ -109,7 +109,7 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
 ```
 ##### StatusCode: 403;
 
-  Usuário não autorizado. Retornas um json:
+  Usuário não autorizado. Retorna um json:
   ```
     {
       info: 'User not Authorized'
@@ -135,7 +135,38 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
   ```
 
 
+### GET /user/:id
+
+  Retorna apenas o usuário com o id informado.
+
+#### Parâmetros
+
+  Necessita do id do usuário seja informado nos paramêtros da URL.
+
+#### Respostas
+
+##### StatusCode: 200;
+  Retorna um json com os dados do usuário. 
+  ```
+    {
+      info: 'User found',
+      user: result
+    }
+  ```
+
+##### StatusCode: 404;
+
+  Usuário não encontrado. Retorna um json:
+  ```
+    { 
+      info: 'User not found!'
+    }
+  ```
+
+
+
 ### POST /user 
+
   Criação de usuários. Exige envio de um corpo com as informações do usuário, qualquer usuário tem acesso.
 
 #### Parâmetros
@@ -175,3 +206,7 @@ API desenvolvida nas aulas de NodeJS, usada para CRUD de usuários em qualquer a
       info: 'Email exists' 
     }
   ```
+
+### PUT /user/:id
+
+  Atualização de dados do usuário:

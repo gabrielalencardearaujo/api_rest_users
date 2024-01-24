@@ -66,7 +66,7 @@ class UserController {
     }
 
     User.new(name, email, password, role);
-    
+
     res.status(200);
     res.json({
       info: 'All Right! User created.'
