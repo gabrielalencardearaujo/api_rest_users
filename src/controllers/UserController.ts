@@ -75,7 +75,7 @@ class UserController {
 
   async update(req: Request, res: Response) {
     const { id } = req.params;
-    const { name, email, role } = req.body;
+    const { name, email, role, password } = req.body;
 
     const user = await User.findById(id);
 
@@ -85,6 +85,7 @@ class UserController {
       id: Number(id),
       email: '',
       name: '',
+      password: '',
       role: 0
     };
 
@@ -105,6 +106,15 @@ class UserController {
     else {
       res.status(401);
       res.json({ info: 'Insert a name!' })
+      return;
+    }
+
+    if (password) {
+      editUser.password = await bcrypt.hash(password, 10)
+    }
+    else {
+      res.status(401);
+      res.json({ info: 'Insert a password!' })
       return;
     }
 
