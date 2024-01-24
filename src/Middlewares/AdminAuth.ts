@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { secret } from "../controllers/UserController"; 
 
 class MiddlewareLogin {
@@ -11,10 +11,16 @@ class MiddlewareLogin {
         const bearer = authToken.split(' ');
         const token = bearer[1]; 
     
-        const checkPassword = jwt.verify(token, secret);
+        const decoded = jwt.verify(token, secret) as JwtPayload;
 
-        if(checkPassword) next();
-        else return;
+        if(decoded && decoded.role === Number(1)) {
+          next()
+        }else {
+          res.status(403);
+          res.json({
+            info: 'User not Authorized'
+          })
+        }
 
       } else {
         res.status(403);

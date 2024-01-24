@@ -9,7 +9,7 @@ type BodyUserProtocol = {
 }
 
 interface UserProtocol {
-  new: (name: string, email: string, password: string) => void;
+  new: (name: string, email: string, password: string, role: number) => void;
 }
 
 class User implements UserProtocol {
@@ -39,7 +39,7 @@ class User implements UserProtocol {
     }
   }
 
-  async new(name: string, email: string, password: string) {
+  async new(name: string, email: string, password: string, role: number) {
     try {
 
       const hash: string = await bcrypt.hash(password, 10);
@@ -48,7 +48,7 @@ class User implements UserProtocol {
         email,
         name,
         password: hash,
-        role: 0,
+        role,
       })
         .table('users')
     } catch (err) {

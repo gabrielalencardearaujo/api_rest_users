@@ -13,7 +13,7 @@ type ResquestProtocol = {
   name: string;
   email: string;
   password?: string;
-  role?: number;
+  role: number;
 }
 
 class UserController {
@@ -37,7 +37,7 @@ class UserController {
   }
 
   async create(req: Request, res: Response) {
-    const { email, name, password }: ResquestProtocol = req.body;
+    const { email, name, password, role }: ResquestProtocol = req.body;
 
     if (email === undefined || name === undefined || password === undefined) {
       res.status(400);
@@ -59,9 +59,8 @@ class UserController {
       return;
     }
 
-    User.new(name, email, password);
+    User.new(name, email, password, role);
 
-    console.log(req.body);
     res.json('Tudo OK!');
   }
 
@@ -155,7 +154,7 @@ class UserController {
         token,})
 
      } else {
-      res.status(200);
+      res.status(401);
       res.json({info: 'Email or Password invalid!'})
      }
 
